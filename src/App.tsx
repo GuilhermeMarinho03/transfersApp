@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import Navigation from './components/Navigation';
 import { HomeSection } from './components/sections/HomeSection';
-import PricesSection from './components/sections/PricesSection';
-import AboutSection from './components/sections/AboutSection';
-import ContactSection from './components/sections/ContactSection';
-import HelpSection from './components/sections/HelpSection';
+import { PricesSection } from './components/sections/PricesSection';
+import { AboutSection  } from './components/sections/AboutSection';
+import { ContactsSection } from './components/sections/ContactSection';
+import { HelpSection } from './components/sections/HelpSection';
 import Footer from './components/Footer';
 
 
@@ -29,7 +29,7 @@ export default function App() {
       case 'about':
         return <AboutSection />;
       case 'contacts':
-        return <ContactSection />;
+        return <ContactsSection />;
       case 'help':
         return <HelpSection />;
       default:
