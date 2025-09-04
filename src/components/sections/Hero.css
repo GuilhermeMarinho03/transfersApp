@@ -1,0 +1,254 @@
+/* Hero Section */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  padding: 5rem 1.5rem;
+  overflow: hidden;
+  /* fundo laranja suave, ligeiramente mais escuro */
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 224, 180, 0.4),
+    rgba(255, 235, 200, 0.3),
+    rgba(255, 245, 230, 0.2)
+  );
+}
+
+
+
+.hero-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.2rem; /* espaço menor entre colunas para compactar */
+  max-width: 1100px;
+  margin: 0 auto;
+  z-index: 10;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .hero-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem; /* espaço médio entre texto e imagem */
+  }
+}
+
+.hero-text-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; /* reduzido para aproximar todos os elementos */
+  max-width: 550px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: rgba(204, 102, 0, 0.12);
+  color: #cc6600;
+  padding: 0.4rem 0.9rem;
+  border-radius: 9999px;
+  font-weight: 500;
+  font-size: 0.85rem;
+  align-self: flex-start;
+  width: auto;
+  white-space: nowrap;
+  margin-bottom: 0; /* remove margem extra */
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1;
+  color: black;
+  margin-bottom: 0.45rem; 
+  overflow: visible;
+}
+
+
+.hero-title .highlight {
+  background: linear-gradient(90deg, #cc6600 0%, #e69933 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  line-height: 1.15; /* mantém como está */
+  padding-bottom: 0.1em; /* micro espaço para o descendente */
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+
+@media (min-width: 1024px) {
+  .hero-title {
+    font-size: 4rem;
+  }
+}
+
+.hero-paragraph {
+  font-size: 1.3rem;
+  color: #6a5d52; /* cinza quente com um toque de laranja */
+  line-height: 1.5;
+  max-width: 450px;
+  font-weight: 300;
+  margin-bottom: 0.7rem;
+}
+
+
+
+/* Botões compactos */
+.hero-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  justify-content: flex-start;
+  margin-bottom: 0.9rem;
+}
+
+.button-reservar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  background: linear-gradient(
+    180deg, 
+    #d17833 0%,   /* laranja ligeiramente mais claro no topo */
+    #cc6600 100%  /* tom original na base */
+  ); 
+  color: white;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.45rem 1.2rem;
+  border-radius: 0.5rem;
+  border: none;
+  box-shadow: 0 6px 10px -3px rgba(0,0,0,0.08), 0 2px 4px -1px rgba(0,0,0,0.04);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.button-reservar:hover {
+  /* mantém o gradiente */
+  background: linear-gradient(
+    180deg, 
+    #d17833 0%,
+    #cc6600 100%
+  );
+  /* adiciona sombra ao redor */
+  box-shadow: 0 0 20px rgba(204,102,0,0.5);
+}
+
+
+
+/* Botão outline "Ver Preços" */
+.button-ver-precos {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  background-color: transparent;
+  color: #cc6600;             
+  font-weight: 600;       /* mais bold */
+  font-size: 0.875rem;
+  padding: 0.45rem 1.2rem;
+  border-radius: 0.5rem;
+  border: 2px solid rgba(204,102,0,0.3);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.button-ver-precos:hover {
+  background-color: rgba(204,102,0,0.07);
+}
+
+/* Estatísticas */
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 1.2rem;
+  justify-items: start;
+  font-size: 0.95rem;
+  padding-top: 0;
+  margin-top: 0;
+}
+
+/* Imagem do lado direito */
+.hero-image-container {
+  position: relative;
+  margin: 0 auto;
+  max-width: 400px;
+}
+
+@media (min-width: 1024px) {
+  .hero-image-container {
+    max-width: 95%;
+    margin-left: 0;
+  }
+}
+
+.hero-image {
+  width: 100%;
+  height: 450px;
+  object-fit: cover;
+  border-radius: 1.3rem;
+  box-shadow: 0 22px 45px rgba(0,0,0,0.09);
+  transition: transform 0.7s ease;
+}
+
+.hero-image-container:hover .hero-image {
+  transform: scale(1.02);
+}
+
+.hero-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(204,102,0,0.2), transparent);
+  border-radius: 1.3rem;
+}
+
+.hero-image-bg {
+  position: absolute;
+  top: -1.8rem;
+  right: -1.8rem;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom right, rgba(204,102,0,0.1), rgba(204,102,0,0.05));
+  border-radius: 1.3rem;
+  z-index: -10;
+}
+
+.hero-stats {
+  display: flex;
+  justify-content: center; /* centraliza horizontalmente */
+  gap: 5rem;            /* espaço entre stats */
+  margin-top: 1rem;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* centraliza verticalmente */
+}
+
+.stat-number {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #d17833; /* laranja mais claro */
+  line-height: 1.1;
+}
+
+
+.stat-label {
+  font-size: 0.8rem;      /* ligeiramente menor */
+  font-weight: 450;
+  color: #6a5d52;
+  margin-top: 0.4rem;
+  text-align: center;
+}
+
+
