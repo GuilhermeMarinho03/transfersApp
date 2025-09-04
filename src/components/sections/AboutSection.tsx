@@ -2,6 +2,7 @@ import { Card, CardContent } from '../ui/card';
 import { Users, Clock, Star, Award, Shield, Car, Zap, Target, Heart, CheckCircle } from 'lucide-react';
 import { ImageWithFallback } from '../figma/ImageWithFallback';
 
+
 export function AboutSection() {
   const stats = [
     { icon: <Users className="h-6 w-6" />, number: '1000+', label: 'Clientes Satisfeitos' },

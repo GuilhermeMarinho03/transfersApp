@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @custom-variant dark (&:is(.dark *));
 
 :root {
@@ -112,28 +116,26 @@
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary-foreground: var(
+    --sidebar-primary-foreground
+  );
   --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent-foreground: var(
+    --sidebar-accent-foreground
+  );
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
 
-  body {
-    @apply bg-background text-foreground;
-  }
-}
 
 /**
  * Base typography. This is not applied to elements which have an ancestor with a Tailwind text class.
  */
 @layer base {
-  :where(:not(:has([class*=" text-"]), :not(:has([class^="text-"])))) {
+  :where(
+    :not(:has([class*=" text-"]), :not(:has([class^="text-"])))
+  ) {
     h1 {
       font-size: var(--text-3xl);
       font-weight: 700;
@@ -193,7 +195,8 @@ html {
 
 /* Custom animations */
 @keyframes gradient {
-  0%, 100% {
+  0%,
+  100% {
     background-position: 0% 50%;
   }
   50% {
@@ -208,31 +211,49 @@ html {
 
 /* Dynamic color utilities */
 .bg-primary-gradient {
-  background: linear-gradient(135deg, var(--primary), color-mix(in srgb, var(--primary) 80%, #ffffff));
+  background: linear-gradient(
+    135deg,
+    var(--primary),
+    color-mix(in srgb, var(--primary) 80%, #ffffff)
+  );
 }
 
 .text-primary-gradient {
-  background: linear-gradient(135deg, var(--primary), color-mix(in srgb, var(--primary) 70%, #000000));
+  background: linear-gradient(
+    135deg,
+    var(--primary),
+    color-mix(in srgb, var(--primary) 70%, #000000)
+  );
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .border-primary-soft {
-  border-color: color-mix(in srgb, var(--primary) 30%, transparent);
+  border-color: color-mix(
+    in srgb,
+    var(--primary) 30%,
+    transparent
+  );
 }
 
 .bg-primary-soft {
-  background-color: color-mix(in srgb, var(--primary) 10%, transparent);
+  background-color: color-mix(
+    in srgb,
+    var(--primary) 10%,
+    transparent
+  );
 }
 
 /* Enhanced shadow utilities */
 .shadow-primary {
-  box-shadow: 0 10px 25px -5px color-mix(in srgb, var(--primary) 25%, transparent);
+  box-shadow: 0 10px 25px -5px
+    color-mix(in srgb, var(--primary) 25%, transparent);
 }
 
 .shadow-primary-lg {
-  box-shadow: 0 20px 40px -10px color-mix(in srgb, var(--primary) 20%, transparent);
+  box-shadow: 0 20px 40px -10px
+    color-mix(in srgb, var(--primary) 20%, transparent);
 }
 
 /* Modern spacing utilities */
@@ -281,7 +302,8 @@ html {
 
 /* Advanced animations */
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0px);
   }
   50% {
@@ -290,7 +312,8 @@ html {
 }
 
 @keyframes pulse-glow {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: 0 0 20px rgba(217, 119, 6, 0.3);
   }
   50% {
@@ -316,7 +339,12 @@ html {
 }
 
 .animate-shimmer {
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
   background-size: 200% 100%;
   animation: shimmer 2s infinite;
 }
