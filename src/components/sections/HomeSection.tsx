@@ -102,7 +102,36 @@ export function HomeSection() {
                 <button className="button-ver-precos">Ver Preços</button>
               </div>
             </SlideUp>
+            <SlideUp delay={0.8}>
+              <div className="hero-buttons">
+                <button className="button-reservar">
+                  Reservar Agora
+                  <ArrowRight className="ml-3 h-6 w-6" />
+                </button>
+                <button className="button-ver-precos">Ver Preços</button>
+              </div>
+            </SlideUp>
 
+            <StaggerContainer
+              delay={1}
+              staggerDelay={0.2}
+              className="hero-stats"
+            >
+              <div className="stat-item">
+                <div className="stat-number">1000+</div>
+                <div className="stat-label">Clientes</div>
+              </div>
+              <div className="stat-item">
+                <div className="stat-number">24/7</div>
+                <div className="stat-label">Disponível</div>
+              </div>
+              <div className="stat-item">
+                <div className="stat-number">4.9★</div>
+                <div className="stat-label">Avaliação</div>
+              </div>
+            </StaggerContainer>
+          </div>
+        </SlideInLeft>
             <StaggerContainer
               delay={1}
               staggerDelay={0.2}
@@ -135,7 +164,20 @@ export function HomeSection() {
                   className="hero-image"
                 />
                 <div className="hero-image-overlay"></div>
+        {/* Right Image */}
+        <SlideInRight delay={0.3}>
+          <div className="hero-image-container">
+            <FloatingElement>
+              <div className="relative group">
+                <ImageWithFallback
+                  src="https://images.unsplash.com/photo-1661220715153-95724e5f3500?crop=entropy&cs=tinysrgb&fit=max&fm=jpg"
+                  alt="Luxury Car Interior"
+                  className="hero-image"
+                />
+                <div className="hero-image-overlay"></div>
               </div>
+            </FloatingElement>
+            <div className="hero-image-bg"></div>
             </FloatingElement>
             <div className="hero-image-bg"></div>
           </div>

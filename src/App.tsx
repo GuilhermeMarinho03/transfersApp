@@ -30,6 +30,7 @@ export default function App() {
         return <AboutSection />;
       case 'contacts':
         return <ContactsSection />;
+        return <ContactsSection />;
       case 'help':
         return <HelpSection />;
       default:
