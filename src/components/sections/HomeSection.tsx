@@ -102,36 +102,7 @@ export function HomeSection() {
                 <button className="button-ver-precos">Ver Preços</button>
               </div>
             </SlideUp>
-            <SlideUp delay={0.8}>
-              <div className="hero-buttons">
-                <button className="button-reservar">
-                  Reservar Agora
-                  <ArrowRight className="ml-3 h-6 w-6" />
-                </button>
-                <button className="button-ver-precos">Ver Preços</button>
-              </div>
-            </SlideUp>
 
-            <StaggerContainer
-              delay={1}
-              staggerDelay={0.2}
-              className="hero-stats"
-            >
-              <div className="stat-item">
-                <div className="stat-number">1000+</div>
-                <div className="stat-label">Clientes</div>
-              </div>
-              <div className="stat-item">
-                <div className="stat-number">24/7</div>
-                <div className="stat-label">Disponível</div>
-              </div>
-              <div className="stat-item">
-                <div className="stat-number">4.9★</div>
-                <div className="stat-label">Avaliação</div>
-              </div>
-            </StaggerContainer>
-          </div>
-        </SlideInLeft>
             <StaggerContainer
               delay={1}
               staggerDelay={0.2}
@@ -164,20 +135,7 @@ export function HomeSection() {
                   className="hero-image"
                 />
                 <div className="hero-image-overlay"></div>
-        {/* Right Image */}
-        <SlideInRight delay={0.3}>
-          <div className="hero-image-container">
-            <FloatingElement>
-              <div className="relative group">
-                <ImageWithFallback
-                  src="https://images.unsplash.com/photo-1661220715153-95724e5f3500?crop=entropy&cs=tinysrgb&fit=max&fm=jpg"
-                  alt="Luxury Car Interior"
-                  className="hero-image"
-                />
-                <div className="hero-image-overlay"></div>
               </div>
-            </FloatingElement>
-            <div className="hero-image-bg"></div>
             </FloatingElement>
             <div className="hero-image-bg"></div>
           </div>
@@ -189,23 +147,27 @@ export function HomeSection() {
         <div className="hero-features-container">
           <FadeIn>
             <div className="hero-features-header">
-              <h2 className="hero-features-title">
-                Porquê Escolher-nos?
-              </h2>
+              <h2 className="hero-features-title">Porquê Escolher-nos?</h2>
               <p className="hero-features-subtitle">
                 Cada detalhe é pensado para tornar a sua viagem perfeita
               </p>
             </div>
           </FadeIn>
 
-          <StaggerContainer delay={0.2} staggerDelay={0.15} className="hero-features">
+          <StaggerContainer
+            delay={0.2}
+            staggerDelay={0.15}
+            className="hero-features"
+          >
             {features.map((feature, index) => (
               <div key={index} className="hero-feature-item">
                 <ScaleIn delay={index * 0.1}>
                   <div className="hero-feature-icon">{feature.icon}</div>
                 </ScaleIn>
                 <h3 className="hero-feature-title">{feature.title}</h3>
-                <p className="hero-feature-description">{feature.description}</p>
+                <p className="hero-feature-description">
+                  {feature.description}
+                </p>
               </div>
             ))}
           </StaggerContainer>
@@ -226,41 +188,48 @@ export function HomeSection() {
             <div className="booking-card">
               <div className="booking-card-header">
                 <h3>Formulário de Reserva</h3>
-                <p>Todos os campos são importantes para garantir o melhor serviço</p>
+                <p>
+                  Todos os campos são importantes para garantir o melhor serviço
+                </p>
               </div>
-              <div className="booking-card-content">
-               {/* Locations */}
-<div className="booking-row">
-  <div className="booking-field">
-    <label>
-      <span className="booking-icon">
-        <MapPin className="icon" />
-      </span>
-      Local de Partida
-    </label>
-    <input
-      type="text"
-      placeholder="Ex: Aeroporto de Lisboa"
-      value={formData.pickup}
-      onChange={(e) => handleInputChange('pickup', e.target.value)}
-    />
-  </div>
 
-  <div className="booking-field">
-    <label>
-      <span className="booking-icon">
-        <MapPin className="icon" />
-      </span>
-      Destino
-    </label>
-    <input
-      type="text"
-      placeholder="Ex: Hotel Tivoli Oriente"
-      value={formData.destination}
-      onChange={(e) => handleInputChange('destination', e.target.value)}
-    />
-  </div>
-</div>
+              <div className="booking-card-content">
+                {/* Locations */}
+                <div className="booking-row">
+                  <div className="booking-field">
+                    <label>
+                      <span className="booking-icon">
+                        <MapPin className="icon" />
+                      </span>
+                      Local de Partida
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Ex: Aeroporto de Lisboa"
+                      value={formData.pickup}
+                      onChange={(e) =>
+                        handleInputChange('pickup', e.target.value)
+                      }
+                    />
+                  </div>
+
+                  <div className="booking-field">
+                    <label>
+                      <span className="booking-icon">
+                        <MapPin className="icon" />
+                      </span>
+                      Destino
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Ex: Hotel Tivoli Oriente"
+                      value={formData.destination}
+                      onChange={(e) =>
+                        handleInputChange('destination', e.target.value)
+                      }
+                    />
+                  </div>
+                </div>
 
                 {/* Date and Time */}
                 <div className="booking-row">
@@ -277,7 +246,9 @@ export function HomeSection() {
                     <input
                       type="time"
                       value={formData.time}
-                      onChange={(e) => handleInputChange('time', e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange('time', e.target.value)
+                      }
                     />
                   </div>
                 </div>
@@ -290,7 +261,9 @@ export function HomeSection() {
                       type="number"
                       min={1}
                       value={formData.passengers}
-                      onChange={(e) => handleInputChange('passengers', e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange('passengers', e.target.value)
+                      }
                     />
                   </div>
                   <div className="booking-field">
@@ -299,14 +272,18 @@ export function HomeSection() {
                       type="number"
                       min={0}
                       value={formData.children}
-                      onChange={(e) => handleInputChange('children', e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange('children', e.target.value)
+                      }
                     />
                   </div>
                   <div className="booking-field">
                     <label>Tipo de Veículo</label>
                     <select
                       value={formData.vehicleType}
-                      onChange={(e) => handleInputChange('vehicleType', e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange('vehicleType', e.target.value)
+                      }
                     >
                       <option value="">Selecionar</option>
                       <option value="sedan">Sedan (1-3 pax)</option>
@@ -325,7 +302,9 @@ export function HomeSection() {
                     <input
                       type="date"
                       value={formData.returnDate}
-                      onChange={(e) => handleInputChange('returnDate', e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange('returnDate', e.target.value)
+                      }
                     />
                   </div>
                   <div className="booking-field">
@@ -333,7 +312,9 @@ export function HomeSection() {
                     <input
                       type="time"
                       value={formData.returnTime}
-                      onChange={(e) => handleInputChange('returnTime', e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange('returnTime', e.target.value)
+                      }
                     />
                   </div>
                 </div>
@@ -345,7 +326,9 @@ export function HomeSection() {
                     <textarea
                       placeholder="Ex: Cadeira de bebé, assistência especial, paragem adicional..."
                       value={formData.specialRequests}
-                      onChange={(e) => handleInputChange('specialRequests', e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange('specialRequests', e.target.value)
+                      }
                     />
                   </div>
                 </div>
@@ -359,7 +342,6 @@ export function HomeSection() {
     </div>
   );
 }
-
 
           
 
