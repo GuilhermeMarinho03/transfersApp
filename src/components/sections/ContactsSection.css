@@ -1,0 +1,227 @@
+/* ContactsSection.css */
+
+/* Container geral */
+.contacts {
+  padding: 4rem 1.5rem;
+  background-color: #fff8f0;
+  font-family: 'Inter', sans-serif;
+  color: #333;
+}
+
+/* Header */
+.contacts-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.contacts-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.contacts-header p {
+  font-size: 1rem;
+  color: #7a5a3a;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Grid principal */
+.contacts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+@media (max-width: 900px) {
+  .contacts-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Cards */
+.card {
+  background: #fff;
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 25px -5px rgba(0,0,0,0.08);
+  padding: 1.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 35px -5px rgba(0,0,0,0.1);
+}
+
+/* Card header */
+.card-header {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  color: #d97706;
+}
+
+.card-header.red {
+  color: #d4183d;
+}
+
+.card-header .icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 0.5rem;
+  color: inherit;
+}
+
+/* Card content */
+.card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Formulário */
+.contact-form .form-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.contact-form .form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-form label {
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
+  color: #7a5a3a;
+}
+
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  font-size: 1rem;
+  color: #333;
+  background-color: #f9f9f9;
+  transition: 0.3s ease;
+}
+
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus {
+  border-color: #d97706;
+  outline: none;
+}
+
+/* Textarea */
+.contact-form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Botão */
+.btn-primary {
+  background: #d97706;
+  color: #fff;
+  border: none;
+  padding: 0.9rem 1.5rem;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: #b45f04;
+}
+
+/* Contact info grid */
+.contact-info .info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 600px) {
+  .contact-info .info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Info items */
+.info-item {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.info-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  background: rgba(217, 119, 6, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #d97706;
+  font-size: 1.2rem;
+}
+
+.info-item h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.info-item .highlight {
+  font-weight: 500;
+  color: #d97706;
+  margin: 0.2rem 0;
+}
+
+.info-item .small {
+  font-size: 0.85rem;
+  color: #7a5a3a;
+}
+
+/* Espaçamento extra para o horário de funcionamento */
+.contact-info > .card:nth-of-type(2) {
+  margin-top: 2rem;
+}
+
+/* Schedule */
+.schedule {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.schedule:last-child {
+  border-bottom: none;
+}
+
+.schedule span {
+  font-size: 0.95rem;
+  color: #7a5a3a;
+}
+
+/* Responsividade geral */
+@media (max-width: 768px) {
+  .contacts-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-form .form-row {
+    flex-direction: column;
+  }
+}

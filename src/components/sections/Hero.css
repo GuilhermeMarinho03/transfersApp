@@ -5,9 +5,8 @@
   flex-direction: column;
   justify-content: center;
   position: relative;
-  padding: 5rem 1.5rem;
+  padding: calc(5rem + 2rem) 1.5rem 5rem; /* mais espaço no topo */
   overflow: hidden;
-  /* fundo laranja suave, ligeiramente mais escuro */
   background: linear-gradient(
     to bottom right,
     rgba(255, 224, 180, 0.4),
@@ -15,8 +14,6 @@
     rgba(255, 245, 230, 0.2)
   );
 }
-
-
 
 .hero-grid {
   position: relative;
@@ -58,7 +55,7 @@
   align-self: flex-start;
   width: auto;
   white-space: nowrap;
-  margin-bottom: 0; /* remove margem extra */
+  margin-bottom: 0;
 }
 
 .hero-title {
@@ -70,18 +67,16 @@
   overflow: visible;
 }
 
-
 .hero-title .highlight {
   background: linear-gradient(90deg, #cc6600 0%, #e69933 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
-  line-height: 1.15; /* mantém como está */
-  padding-bottom: 0.1em; /* micro espaço para o descendente */
+  line-height: 1.15;
+  padding-bottom: 0.1em;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
 }
-
 
 @media (min-width: 1024px) {
   .hero-title {
@@ -91,14 +86,12 @@
 
 .hero-paragraph {
   font-size: 1.3rem;
-  color: #6a5d52; /* cinza quente com um toque de laranja */
+  color: #6a5d52;
   line-height: 1.5;
   max-width: 450px;
   font-weight: 300;
   margin-bottom: 0.7rem;
 }
-
-
 
 /* Botões compactos */
 .hero-buttons {
@@ -116,8 +109,8 @@
   gap: 0.4rem;
   background: linear-gradient(
     180deg, 
-    #d17833 0%,   /* laranja ligeiramente mais claro no topo */
-    #cc6600 100%  /* tom original na base */
+    #d17833 0%,
+    #cc6600 100%
   ); 
   color: white;
   font-weight: 600;
@@ -132,19 +125,9 @@
 }
 
 .button-reservar:hover {
-  /* mantém o gradiente */
-  background: linear-gradient(
-    180deg, 
-    #d17833 0%,
-    #cc6600 100%
-  );
-  /* adiciona sombra ao redor */
   box-shadow: 0 0 20px rgba(204,102,0,0.5);
 }
 
-
-
-/* Botão outline "Ver Preços" */
 .button-ver-precos {
   display: inline-flex;
   align-items: center;
@@ -152,7 +135,7 @@
   gap: 0.4rem;
   background-color: transparent;
   color: #cc6600;             
-  font-weight: 600;       /* mais bold */
+  font-weight: 600;
   font-size: 0.875rem;
   padding: 0.45rem 1.2rem;
   border-radius: 0.5rem;
@@ -168,13 +151,31 @@
 
 /* Estatísticas */
 .hero-stats {
-  display: grid;
-  grid-template-columns: repeat(3, auto);
-  gap: 1.2rem;
-  justify-items: start;
-  font-size: 0.95rem;
-  padding-top: 0;
-  margin-top: 0;
+  display: flex;
+  justify-content: center;
+  gap: 5rem;
+  margin-top: 1rem;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-number {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #d17833;
+  line-height: 1.1;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  font-weight: 450;
+  color: #6a5d52;
+  margin-top: 0.4rem;
+  text-align: center;
 }
 
 /* Imagem do lado direito */
@@ -221,34 +222,309 @@
   border-radius: 1.3rem;
   z-index: -10;
 }
-
-.hero-stats {
-  display: flex;
-  justify-content: center; /* centraliza horizontalmente */
-  gap: 5rem;            /* espaço entre stats */
-  margin-top: 1rem;
+.hero-features-section {
+  position: relative;
+  width: 100vw; /* força a ocupar toda a largura da viewport */
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw; /* neutraliza o alinhamento do container pai */
+  margin-right: -50vw;
+  
+  background-color: #fff; /* fundo sólido branco */
+  padding-top: 2rem; /* altura menor */
+  padding-bottom: 2rem;
+  margin-top: 2rem; /* espaço entre seções */
 }
 
-.stat-item {
+@media (min-width: 1024px) {
+  .hero-features-section {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+}
+
+.hero-features-container {
+  max-width: 1200px; /* controla só o conteúdo, não o fundo */
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+
+.hero-features-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.hero-features-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 1024px) {
+  .hero-features-title {
+    font-size: 3rem;
+  }
+}
+
+.hero-features-subtitle {
+  font-size: 1.25rem;
+  font-weight: 300;
+  color: var(--muted-foreground);
+  max-width: 650px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.hero-features {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .hero-features {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-features {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3rem;
+  }
+}
+
+.hero-feature-item {
   display: flex;
   flex-direction: column;
-  align-items: center; /* centraliza verticalmente */
-}
-
-.stat-number {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #d17833; /* laranja mais claro */
-  line-height: 1.1;
-}
-
-
-.stat-label {
-  font-size: 0.8rem;      /* ligeiramente menor */
-  font-weight: 450;
-  color: #6a5d52;
-  margin-top: 0.4rem;
+  align-items: center;
   text-align: center;
+  padding: 1rem;
+  border-radius: var(--radius);
+  transition: transform 0.3s ease; /* aumenta o item inteiro */
+}
+
+/* Hover: aumenta o item inteiro */
+.hero-feature-item:hover {
+  transform: scale(1.05); /* aumenta ícone + título + descrição */
+}
+
+.hero-feature-icon {
+  width: 70px;  /* quadrado maior */
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75rem;  /* cantos arredondados */
+  background-color: rgba(217, 119, 6, 0.1);
+  color: var(--primary);
+  margin-bottom: 1rem;
+  position: relative;
+  overflow: visible;
+  transition: box-shadow 0.3s ease; /* glow interno */
+}
+
+/* Hover: glow interno no ícone */
+.hero-feature-item:hover .hero-feature-icon::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 0.75rem; /* mesmo que o quadrado */
+  box-shadow: 0 0 15px rgba(217,119,6,0.5);
+  pointer-events: none;
+}
+
+.hero-feature-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin-bottom: 0.4rem;
+}
+
+.hero-feature-description {
+  font-size: 0.9rem;
+  font-weight: 300;
+  color: var(--muted-foreground);
+  line-height: 1.5;
+  max-width: 220px;
 }
 
 
+/* Booking Section */
+.booking-section {
+  padding: 4rem 1.5rem;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.booking-container {
+  max-width: 700px;
+  width: 100%;
+}
+
+/* Header */
+.booking-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.booking-header h2 {
+  font-size: 2.25rem; /* título grande */
+  font-weight: 800;   /* negrito */
+  margin-bottom: 0.5rem;
+}
+
+.booking-header p {
+  font-size: 1rem; 
+  font-weight: 400;
+  opacity: 0.8;
+}
+
+/* Booking Card */
+.booking-card {
+  background: transparent; /* removido fundo branco */
+  border-radius: 1.5rem;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+}
+
+/* Card Header */
+.booking-card-header {
+  background: linear-gradient(180deg, rgba(217,119,6,0.8) 0%, rgba(217,119,6,0.6) 100%);
+  color: #fff;
+  text-align: center;
+  padding: 1.5rem 1rem;
+  border-radius: 1.5rem 1.5rem 0 0;
+}
+
+.booking-card-header h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.booking-card-header p {
+  font-size: 0.875rem;
+  opacity: 0.9;
+}
+
+/* Card Content */
+.booking-card-content {
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: transparent; /* removido fundo */
+}
+
+/* Rows */
+.booking-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Fields */
+.booking-field {
+  flex: 1 1 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+.booking-field.full-width {
+  flex: 1 1 100%;
+}
+
+.booking-field label {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: #333;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+}
+
+/* Ícones dentro do label */
+.booking-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem; /* 32px */
+  height: 2rem;
+  background-color: rgba(217, 119, 6, 0.1); /* laranja suave */
+  color: #d97706; /* laranja Hero */
+  border-radius: 0.75rem; /* cantos arredondados */
+  margin-right: 0.5rem;
+  position: relative;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+/* Glow ao hover */
+.booking-field:hover .booking-icon {
+  box-shadow: 0 0 10px rgba(217, 119, 6, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Icon SVG */
+.booking-icon .icon {
+  width: 1rem; /* 16px */
+  height: 1rem;
+}
+
+/* Inputs, selects, textarea */
+.booking-field input,
+.booking-field select,
+.booking-field textarea {
+  font-size: 0.825rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid rgba(0,0,0,0.1); /* leve */
+  border-radius: 1rem;
+  background: transparent; /* sem fundo branco */
+  transition: all 0.3s ease;
+  color: #333;
+}
+
+.booking-field input:focus,
+.booking-field select:focus,
+.booking-field textarea:focus {
+  outline: none;
+  border-color: #d97706;
+  background: rgba(255,255,255,0.1); /* leve destaque no foco */
+  box-shadow: 0 0 8px rgba(217, 119, 6, 0.2);
+}
+
+.booking-field textarea {
+  min-height: 100px;
+  resize: none;
+}
+
+/* Button */
+.booking-card-content button {
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  background-color: #d97706;
+  color: #fff;
+  border: none;
+  border-radius: 1.25rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.booking-card-content button:hover {
+  background-color: #b85e03;
+  box-shadow: 0 6px 20px rgba(217, 119, 6, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .booking-row {
+    flex-direction: column;
+  }
+}

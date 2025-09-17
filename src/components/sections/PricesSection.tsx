@@ -1,337 +1,257 @@
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { Button } from '../ui/button';
-import { Badge } from '../ui/badge';
-import { Check, Car, Users, Clock, MapPin, Star, Sparkles, Coffee, Wifi, Shield, ArrowRight } from 'lucide-react';
-import { ImageWithFallback } from '../figma/ImageWithFallback';
-import { FadeIn, SlideUp, ScaleIn, StaggerContainer, RotateIn } from '../animations/ScrollAnimations';
+import { useState } from "react";
+import "./Prices.css";
 
-export function PricesSection() {
-  const pricing = [
-    {
-      title: 'Sedan',
-      subtitle: 'Perfeito para casais',
-      description: 'Ideal para 1-3 passageiros',
-      icon: <Car className="h-7 w-7" />,
-      gradient: 'from-blue-500 to-cyan-500',
-      features: [
-        'Até 3 passageiros',
-        '2 bagagens grandes',
-        'Ar condicionado',
-        'Wi-Fi gratuito',
-        'Água oferecida'
-      ],
-      routes: [
-        { from: 'Aeroporto Lisboa', to: 'Centro de Lisboa', price: '25€' },
-        { from: 'Aeroporto Lisboa', to: 'Cascais', price: '35€' },
-        { from: 'Aeroporto Lisboa', to: 'Sintra', price: '45€' },
-        { from: 'Aeroporto Porto', to: 'Centro do Porto', price: '20€' }
-      ],
-      popular: false,
-      image: "https://images.unsplash.com/photo-1661220715153-95724e5f3500?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb3p5JTIwY2FyJTIwaW50ZXJpb3IlMjBsdXh1cnl8ZW58MXx8fHwxNzU2NjEwMjczfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-    },
-    {
-      title: 'Executivo',
-      subtitle: 'A escolha dos profissionais',
-      description: 'Conforto premium para 1-3 passageiros',
-      icon: <Star className="h-7 w-7" />,
-      gradient: 'from-primary to-orange-600',
-      features: [
-        'Até 3 passageiros',
-        '3 bagagens grandes',
-        'Veículo premium',
-        'Wi-Fi de alta velocidade',
-        'Bebidas oferecidas',
-        'Jornais internacionais'
-      ],
-      routes: [
-        { from: 'Aeroporto Lisboa', to: 'Centro de Lisboa', price: '35€' },
-        { from: 'Aeroporto Lisboa', to: 'Cascais', price: '50€' },
-        { from: 'Aeroporto Lisboa', to: 'Sintra', price: '60€' },
-        { from: 'Aeroporto Porto', to: 'Centro do Porto', price: '30€' }
-      ],
-      popular: true,
-      image: "https://images.unsplash.com/photo-1752747271602-89b145a445f3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjB0cmF2ZWwlMjBleHBlcmllbmNlfGVufDF8fHx8MTc1NjYxMDI3OHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-    },
-    {
-      title: 'Van/Minibus',
-      subtitle: 'Ideal para grupos',
-      description: 'Para grupos até 8 passageiros',
-      icon: <Users className="h-7 w-7" />,
-      gradient: 'from-green-500 to-emerald-500',
-      features: [
-        'Até 8 passageiros',
-        '8 bagagens grandes',
-        'Ar condicionado',
-        'Wi-Fi gratuito',
-        'Espaço extra para bagagem',
-        'Ideal para grupos'
-      ],
-      routes: [
-        { from: 'Aeroporto Lisboa', to: 'Centro de Lisboa', price: '45€' },
-        { from: 'Aeroporto Lisboa', to: 'Cascais', price: '60€' },
-        { from: 'Aeroporto Lisboa', to: 'Sintra', price: '70€' },
-        { from: 'Aeroporto Porto', to: 'Centro do Porto', price: '40€' }
-      ],
-      popular: false,
-      image: "https://images.unsplash.com/photo-1630063386410-8a2dbbda1577?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3YXJtJTIwc3Vuc2V0JTIwdHJhdmVsfGVufDF8fHx8MTc1NjYxMDI3NHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-    }
-  ];
+type AirportKey = "faro" | "lisbon" | "seville";
 
-  const additionalServices = [
-    {
-      title: 'Tempo de Espera',
-      description: 'Flexibilidade total',
-      icon: <Clock className="h-7 w-7" />,
-      gradient: 'from-purple-500 to-pink-500',
-      details: [
-        'Voos nacionais: 45 min gratuitos',
-        'Voos internacionais: 60 min gratuitos',
-        'Tempo extra: 5€ por cada 15 min'
-      ]
-    },
-    {
-      title: 'Paragens Extra',
-      description: 'O seu percurso, as suas regras',
-      icon: <MapPin className="h-7 w-7" />,
-      gradient: 'from-amber-500 to-red-500',
-      details: [
-        'Primeira paragem: 10€',
-        'Paragens adicionais: 5€ cada',
-        'Tempo de espera: 10 min incluídos',
-        'Tempo extra: 2€ por cada 5 min'
-      ]
-    }
-  ];
+interface DestinationRow {
+  destination: string;
+  oneWay4: string;
+  return4: string;
+  oneWay8: string;
+  return8: string;
+  distance: string;
+  time: string;
+}
 
-  const benefits = [
-    { icon: <Coffee className="h-5 w-5" />, text: 'Bebidas de cortesia' },
-    { icon: <Wifi className="h-5 w-5" />, text: 'Wi-Fi gratuito' },
-    { icon: <Star className="h-5 w-5" />, text: 'Condutores 5 estrelas' },
-    { icon: <Clock className="h-5 w-5" />, text: 'Pontualidade garantida' }
-  ];
+const data: Record<AirportKey, DestinationRow[]> = {
+  faro: [
+    { destination: "Albufeira", oneWay4: "45€", return4: "90€", oneWay8: "55€", return8: "110€", distance: "45 km", time: "30 min" },
+    { destination: "Albufeira-Açoteias", oneWay4: "45€", return4: "90€", oneWay8: "55€", return8: "110€", distance: "35 km", time: "35 min" },
+    { destination: "Albufeira-Galé", oneWay4: "45€", return4: "90€", oneWay8: "55€", return8: "110€", distance: "46 km", time: "56 min" },
+    { destination: "Albufeira-Guia", oneWay4: "45€", return4: "90€", oneWay8: "55€", return8: "110€", distance: "44 km", time: "35 min" },
+    { destination: "Albufeira-Olhos de Água", oneWay4: "45€", return4: "90€", oneWay8: "55€", return8: "110€", distance: "35 km", time: "39 min" },
+    { destination: "Albufeira-Salgados", oneWay4: "45€", return4: "90€", oneWay8: "55€", return8: "110€", distance: "44 km", time: "50 min" },
+    { destination: "Albufeira-São Rafael", oneWay4: "45€", return4: "90€", oneWay8: "55€", return8: "110€", distance: "46 km", time: "50 min" },
+    { destination: "Albufeira-Sesmarias", oneWay4: "45€", return4: "90€", oneWay8: "55€", return8: "110€", distance: "40 km", time: "40 min" },
+    { destination: "Albufeira-Vale da Parra", oneWay4: "45€", return4: "90€", oneWay8: "55€", return8: "110€", distance: "44 km", time: "50 min" },
+    { destination: "Alcoutim", oneWay4: "105€", return4: "210€", oneWay8: "135€", return8: "270€", distance: "97 km", time: "1h 30m" },
+    { destination: "Algoz", oneWay4: "50€", return4: "100€", oneWay8: "60€", return8: "120€", distance: "45 km", time: "55 min" },
+    { destination: "Aljezur", oneWay4: "110€", return4: "220€", oneWay8: "140€", return8: "280€", distance: "100 km", time: "1h 30m" },
+    { destination: "Almancil", oneWay4: "35€", return4: "70€", oneWay8: "45€", return8: "90€", distance: "19 km", time: "25 min" },
+    { destination: "Alte", oneWay4: "60€", return4: "120€", oneWay8: "70€", return8: "140€", distance: "56 km", time: "45 min" },
+    { destination: "Altura", oneWay4: "60€", return4: "120€", oneWay8: "70€", return8: "140€", distance: "58 km", time: "1h 00m" },
+    { destination: "Alvor", oneWay4: "75€", return4: "150€", oneWay8: "85€", return8: "170€", distance: "75 km", time: "1h 05m" },
+    { destination: "Armação de Pêra", oneWay4: "55€", return4: "110€", oneWay8: "65€", return8: "130€", distance: "48 km", time: "55 min" },
+    { destination: "Ayamonte (Spain)", oneWay4: "75€", return4: "150€", oneWay8: "85€", return8: "170€", distance: "75 km", time: "1h 10m" },
+    { destination: "Beja", oneWay4: "150€", return4: "300€", oneWay8: "200€", return8: "400€", distance: "150 km", time: "2h 00m" },
+    { destination: "Boliqueime", oneWay4: "40€", return4: "80€", oneWay8: "50€", return8: "100€", distance: "30 km", time: "35 min" },
+    { destination: "Budens", oneWay4: "105€", return4: "210€", oneWay8: "135€", return8: "270€", distance: "102 km", time: "1h 25m" },
+    { destination: "Burgau", oneWay4: "110€", return4: "220€", oneWay8: "140€", return8: "280€", distance: "100 km", time: "1h 15m" },
+    { destination: "Cabanas de Tavira", oneWay4: "50€", return4: "100€", oneWay8: "60€", return8: "120€", distance: "51 km", time: "45 min" },
+    { destination: "Cacela Velha", oneWay4: "55€", return4: "110€", oneWay8: "65€", return8: "130€", distance: "61 km", time: "55 min" },
+    { destination: "Cádiz (Spain)", oneWay4: "350€", return4: "700€", oneWay8: "420€", return8: "840€", distance: "321 km", time: "3h 10m" },
+    { destination: "Carvoeiro", oneWay4: "65€", return4: "130€", oneWay8: "75€", return8: "150€", distance: "68 km", time: "1h 00m" },
+    { destination: "Castro Marim", oneWay4: "60€", return4: "120€", oneWay8: "70€", return8: "140€", distance: "62 km", time: "55 min" },
+    { destination: "Conceição de Tavira", oneWay4: "48€", return4: "96€", oneWay8: "58€", return8: "116€", distance: "46 km", time: "45 min" },
+    { destination: "El Rompido (Spain)", oneWay4: "105€", return4: "210€", oneWay8: "130€", return8: "260€", distance: "104 km", time: "1h 20m" },
+    { destination: "Estoi", oneWay4: "25€", return4: "50€", oneWay8: "35€", return8: "70€", distance: "20 km", time: "25 min" },
+    { destination: "Faro (City)", oneWay4: "25€", return4: "50€", oneWay8: "35€", return8: "70€", distance: "9 km", time: "15 min" },
+    { destination: "Ferragudo", oneWay4: "65€", return4: "130€", oneWay8: "75€", return8: "150€", distance: "67 km", time: "55 min" },
+    { destination: "Fuzeta", oneWay4: "30€", return4: "60€", oneWay8: "40€", return8: "80€", distance: "29 km", time: "35 min" },
+    { destination: "Gibraltar (Spain)", oneWay4: "450€", return4: "900€", oneWay8: "550€", return8: "1100€", distance: "393 km", time: "4h 15m" },
+    { destination: "Granada (Spain)", oneWay4: "455€", return4: "910€", oneWay8: "580€", return8: "1160€", distance: "457 km", time: "4h 45m" },
+    { destination: "Guia", oneWay4: "50€", return4: "100€", oneWay8: "60€", return8: "120€", distance: "44 km", time: "40 min" },
+    { destination: "Huelva (Spain)", oneWay4: "120€", return4: "240€", oneWay8: "140€", return8: "280€", distance: "125 km", time: "1h 30m" },
+    { destination: "Isla Canela (Spain)", oneWay4: "75€", return4: "150€", oneWay8: "85€", return8: "170€", distance: "80 km", time: "1h 15m" },
+    { destination: "Isla Cristina (Spain)", oneWay4: "80€", return4: "160€", oneWay8: "90€", return8: "180€", distance: "87 km", time: "1h 20m" },
+    { destination: "Islantilla (Spain)", oneWay4: "90€", return4: "180€", oneWay8: "105€", return8: "210€", distance: "92 km", time: "1h 30m" },
+    { destination: "Jerez de la Frontera (Spain)", oneWay4: "300€", return4: "600€", oneWay8: "350€", return8: "700€", distance: "289 km", time: "3h 15m" },
+    { destination: "Lagoa", oneWay4: "60€", return4: "120€", oneWay8: "70€", return8: "140€", distance: "62 km", time: "55 min" },
+    { destination: "Lagos", oneWay4: "90€", return4: "180€", oneWay8: "105€", return8: "210€", distance: "92 km", time: "1h 10m" },
+    { destination: "Lepe (Spain)", oneWay4: "90€", return4: "180€", oneWay8: "110€", return8: "220€", distance: "98 km", time: "1h 05m" },
+    { destination: "Lisboa", oneWay4: "350€", return4: "700€", oneWay8: "400€", return8: "800€", distance: "279 km", time: "3h 00m" },
+    { destination: "Loulé", oneWay4: "30€", return4: "60€", oneWay8: "40€", return8: "80€", distance: "20 km", time: "25 min" },
+    { destination: "Luz Tavira", oneWay4: "40€", return4: "80€", oneWay8: "50€", return8: "100€", distance: "32 km", time: "45 min" },
+    { destination: "Madrid (Spain)", oneWay4: "750€", return4: "1500€", oneWay8: "890€", return8: "1780€", distance: "722 km", time: "7h 00m" },
+    { destination: "Málaga (Spain)", oneWay4: "475€", return4: "950€", oneWay8: "585€", return8: "1170€", distance: "417 km", time: "4h 30m" },
+    { destination: "Manta Rota", oneWay4: "55€", return4: "110€", oneWay8: "65€", return8: "130€", distance: "61 km", time: "55 min" },
+    { destination: "Marbella (Spain)", oneWay4: "475€", return4: "950€", oneWay8: "590€", return8: "1180€", distance: "454 km", time: "4h 45m" },
+    { destination: "Moncarapacho", oneWay4: "30€", return4: "60€", oneWay8: "40€", return8: "80€", distance: "27 km", time: "25 min" },
+    { destination: "Monchique", oneWay4: "85€", return4: "170€", oneWay8: "95€", return8: "190€", distance: "86 km", time: "1h 00m" },
+    { destination: "Monte Gordo", oneWay4: "65€", return4: "130€", oneWay8: "75€", return8: "150€", distance: "61 km", time: "55 min" },
+    { destination: "Monte Rei Golf & Country Club", oneWay4: "65€", return4: "130€", oneWay8: "75€", return8: "150€", distance: "62 km", time: "55 min" },
+    { destination: "Olhão", oneWay4: "25€", return4: "50€", oneWay8: "35€", return8: "70€", distance: "15 km", time: "25 min" },
+    { destination: "Pedras del Rei", oneWay4: "45€", return4: "90€", oneWay8: "55€", return8: "110€", distance: "43 km", time: "45 min" },
+    { destination: "Porches", oneWay4: "55€", return4: "110€", oneWay8: "65€", return8: "130€", distance: "55 km", time: "55 min" },
+    { destination: "Portimão", oneWay4: "70€", return4: "140€", oneWay8: "80€", return8: "160€", distance: "74 km", time: "1h 00m" },
+    { destination: "Porto", oneWay4: "600€", return4: "1200€", oneWay8: "750€", return8: "1500€", distance: "547 km", time: "6h 00m" },
+    { destination: "Praia da Luz (Lagos)", oneWay4: "95€", return4: "190€", oneWay8: "110€", return8: "220€", distance: "93 km", time: "1h 20m" },
+    { destination: "Praia da Rocha (Portimão)", oneWay4: "70€", return4: "140€", oneWay8: "80€", return8: "160€", distance: "75 km", time: "1h 00m" },
+    { destination: "Praia Verde", oneWay4: "60€", return4: "120€", oneWay8: "70€", return8: "140€", distance: "62 km", time: "1h 05m" },
+    { destination: "Punta Umbria (Spain)", oneWay4: "110€", return4: "220€", oneWay8: "130€", return8: "260€", distance: "120 km", time: "1h 30m" },
+    { destination: "Quarteira", oneWay4: "35€", return4: "70€", oneWay8: "45€", return8: "90€", distance: "27 km", time: "30 min" },
+    { destination: "Quinta do Lago", oneWay4: "35€", return4: "70€", oneWay8: "45€", return8: "90€", distance: "21 km", time: "25 min" },
+    { destination: "Robinson Club (Quinta da Ria)", oneWay4: "55€", return4: "110€", oneWay8: "65€", return8: "130€", distance: "55 km", time: "44 min" },
+    { destination: "Sagres", oneWay4: "130€", return4: "260€", oneWay8: "170€", return8: "340€", distance: "119 km", time: "1h 35m" },
+    { destination: "Salema", oneWay4: "120€", return4: "240€", oneWay8: "150€", return8: "300€", distance: "105 km", time: "1h 20m" },
+    { destination: "Santa Bárbara de Nexe (Faro)", oneWay4: "25€", return4: "50€", oneWay8: "35€", return8: "70€", distance: "15 km", time: "30 min" },
+    { destination: "Santa Catarina Fonte do Bispo", oneWay4: "35€", return4: "70€", oneWay8: "45€", return8: "90€", distance: "33 km", time: "30 min" },
+    { destination: "Santa Luzia (Tavira)", oneWay4: "45€", return4: "90€", oneWay8: "55€", return8: "110€", distance: "40 km", time: "35 min" },
+    { destination: "Santo Estevão (Tavira)", oneWay4: "45€", return4: "90€", oneWay8: "55€", return8: "110€", distance: "43 km", time: "40 min" },
+    { destination: "São Brás de Alportel", oneWay4: "35€", return4: "70€", oneWay8: "40€", return8: "80€", distance: "22 km", time: "30 min" },
+{ destination: "Seville (Spain)", oneWay4: "235€", return4: "470€", oneWay8: "275€", return8: "550€", distance: "203 km", time: "2h 00m" },
+{ destination: "Silves", oneWay4: "60€", return4: "120€", oneWay8: "70€", return8: "140€", distance: "63 km", time: "50 min" },
+{ destination: "Tavira", oneWay4: "45€", return4: "90€", oneWay8: "55€", return8: "110€", distance: "43 km", time: "40 min" },
+{ destination: "Vale do Lobo", oneWay4: "35€", return4: "70€", oneWay8: "45€", return8: "90€", distance: "22 km", time: "25 min" },
+{ destination: "Vila do Bispo", oneWay4: "125€", return4: "250€", oneWay8: "160€", return8: "320€", distance: "110 km", time: "1h 30m" },
+{ destination: "Vila Real de Sto António", oneWay4: "70€", return4: "140€", oneWay8: "80€", return8: "160€", distance: "68 km", time: "50 min" },
+{ destination: "Vilamoura", oneWay4: "40€", return4: "80€", oneWay8: "45€", return8: "90€", distance: "29 km", time: "30 min" },
+{ destination: "Vilanova de Cacela", oneWay4: "55€", return4: "110€", oneWay8: "65€", return8: "130€", distance: "60 km", time: "45 min" },
+  ],
+  lisbon: [
+    { destination: "Albufeira", oneWay4: "325€", return4: "650€", oneWay8: "375€", return8: "750€", distance: "254 km", time: "2h 15m" },
+{ destination: "Almancil", oneWay4: "325€", return4: "650€", oneWay8: "375€", return8: "750€", distance: "264 km", time: "2h 20m" },
+{ destination: "Altura", oneWay4: "365€", return4: "730€", oneWay8: "415€", return8: "830€", distance: "318 km", time: "2h 45m" },
+{ destination: "Alvor", oneWay4: "350€", return4: "700€", oneWay8: "400€", return8: "800€", distance: "284 km", time: "2h 32m" },
+{ destination: "Armação de Pêra", oneWay4: "350€", return4: "700€", oneWay8: "400€", return8: "800€", distance: "261 km", time: "2h 15m" },
+{ destination: "Boliqueime", oneWay4: "325€", return4: "650€", oneWay8: "375€", return8: "750€", distance: "254 km", time: "2h 10m" },
+{ destination: "Cabanas de Tavira", oneWay4: "350€", return4: "700€", oneWay8: "400€", return8: "800€", distance: "305 km", time: "3h 05m" },
+{ destination: "Cacela Velha", oneWay4: "360€", return4: "720€", oneWay8: "410€", return8: "820€", distance: "319 km", time: "2h 45m" },
+{ destination: "Carvoeiro", oneWay4: "350€", return4: "700€", oneWay8: "400€", return8: "800€", distance: "272 km", time: "2h 24m" },
+{ destination: "Castro Marim", oneWay4: "350€", return4: "700€", oneWay8: "400€", return8: "800€", distance: "321 km", time: "2h 45m" },
+{ destination: "Conceição de Tavira", oneWay4: "350€", return4: "700€", oneWay8: "400€", return8: "800€", distance: "303 km", time: "3h 05m" },
+{ destination: "Estoi", oneWay4: "325€", return4: "650€", oneWay8: "375€", return8: "750€", distance: "274 km", time: "2h 21m" },
+{ destination: "Faro (City)", oneWay4: "325€", return4: "650€", oneWay8: "375€", return8: "750€", distance: "275 km", time: "2h 27m" },
+{ destination: "Ferragudo", oneWay4: "350€", return4: "700€", oneWay8: "400€", return8: "800€", distance: "277 km", time: "2h 29m" },
+{ destination: "Fuzeta", oneWay4: "345€", return4: "690€", oneWay8: "395€", return8: "790€", distance: "291 km", time: "2h 35m" },
+{ destination: "Huelva (Spain)", oneWay4: "500€", return4: "1000€", oneWay8: "600€", return8: "1200€", distance: "373 km", time: "3h 22m" },
+{ destination: "Isla Canela (Spain)", oneWay4: "400€", return4: "800€", oneWay8: "475€", return8: "950€", distance: "334 km", time: "3h 11m" },
+{ destination: "Isla Cristina (Spain)", oneWay4: "360€", return4: "720€", oneWay8: "450€", return8: "900€", distance: "338 km", time: "3h 05m" },
+{ destination: "Islantilla (Spain)", oneWay4: "375€", return4: "750€", oneWay8: "450€", return8: "900€", distance: "348 km", time: "3h 07m" },
+{ destination: "Lagoa", oneWay4: "350€", return4: "700€", oneWay8: "400€", return8: "800€", distance: "267 km", time: "2h 17m" },
+{ destination: "Lagos", oneWay4: "350€", return4: "700€", oneWay8: "400€", return8: "800€", distance: "298 km", time: "2h 40m" },
+{ destination: "Lepe (Spain)", oneWay4: "350€", return4: "700€", oneWay8: "450€", return8: "900€", distance: "344 km", time: "3h 10m" },
+{ destination: "Loulé", oneWay4: "325€", return4: "650€", oneWay8: "375€", return8: "750€", distance: "262 km", time: "2h 20m" },
+{ destination: "Luz Tavira", oneWay4: "345€", return4: "690€", oneWay8: "395€", return8: "790€", distance: "296 km", time: "2h 40m" },
+{ destination: "Manta Rota", oneWay4: "335€", return4: "670€", oneWay8: "385€", return8: "770€", distance: "319 km", time: "2h 49m" },
+{ destination: "Moncarapacho", oneWay4: "345€", return4: "690€", oneWay8: "395€", return8: "790€", distance: "286 km", time: "2h 30m" },
+{ destination: "Monchique", oneWay4: "350€", return4: "700€", oneWay8: "400€", return8: "800€", distance: "255 km", time: "2h 37m" },
+{ destination: "Monte Gordo", oneWay4: "350€", return4: "700€", oneWay8: "400€", return8: "800€", distance: "319 km", time: "2h 49m" },
+{ destination: "Olhão", oneWay4: "330€", return4: "660€", oneWay8: "390€", return8: "780€", distance: "283 km", time: "2h 34m" },
+{ destination: "Porches", oneWay4: "350€", return4: "700€", oneWay8: "400€", return8: "800€", distance: "260 km", time: "2h 14m" },
+{ destination: "Portimão", oneWay4: "350€", return4: "700€", oneWay8: "400€", return8: "800€", distance: "279 km", time: "2h 32m" },
+{ destination: "Praia da Luz (Lagos)", oneWay4: "360€", return4: "720€", oneWay8: "475€", return8: "950€", distance: "303 km", time: "2h 40m" },
+{ destination: "Praia Verde", oneWay4: "345€", return4: "690€", oneWay8: "395€", return8: "790€", distance: "318 km", time: "2h 45m" },
+{ destination: "Quarteira", oneWay4: "325€", return4: "650€", oneWay8: "375€", return8: "750€", distance: "267 km", time: "2h 24m" },
+{ destination: "Quinta do Lago", oneWay4: "330€", return4: "660€", oneWay8: "390€", return8: "780€", distance: "267 km", time: "2h 24m" },
+{ destination: "Santa Luzia (Tavira)", oneWay4: "325€", return4: "650€", oneWay8: "375€", return8: "750€", distance: "302 km", time: "3h 00m" },
+{ destination: "São Brás de Alportel", oneWay4: "325€", return4: "650€", oneWay8: "375€", return8: "750€", distance: "281 km", time: "2h 30m" },
+{ destination: "Seville (Spain)", oneWay4: "600€", return4: "1200€", oneWay8: "750€", return8: "1500€", distance: "464 km", time: "4h 27m" },
+{ destination: "Silves", oneWay4: "350€", return4: "700€", oneWay8: "400€", return8: "800€", distance: "250 km", time: "2h 20m" },
+{ destination: "Tavira", oneWay4: "350€", return4: "700€", oneWay8: "400€", return8: "800€", distance: "300 km", time: "3h 00m" },
+{ destination: "Vale do Lobo", oneWay4: "330€", return4: "660€", oneWay8: "390€", return8: "780€", distance: "268 km", time: "2h 27m" },
+{ destination: "Vila Real de Sto António", oneWay4: "350€", return4: "700€", oneWay8: "400€", return8: "800€", distance: "324 km", time: "2h 49m" },
+{ destination: "Vilamoura", oneWay4: "325€", return4: "650€", oneWay8: "375€", return8: "750€", distance: "261 km", time: "2h 19m" },
+ ],
+  seville: [
+   { destination: "Albufeira", oneWay4: "260€", return4: "520€", oneWay8: "300€", return8: "600€", distance: "242 km", time: "2h 34m" },
+{ destination: "Almancil", oneWay4: "250€", return4: "500€", oneWay8: "300€", return8: "600€", distance: "217 km", time: "2h 15m" },
+{ destination: "Altura", oneWay4: "185€", return4: "370€", oneWay8: "225€", return8: "450€", distance: "152 km", time: "1h 58m" },
+{ destination: "Alvor", oneWay4: "225€", return4: "450€", oneWay8: "295€", return8: "590€", distance: "271 km", time: "2h 48m" },
+{ destination: "Armação de Pêra", oneWay4: "275€", return4: "550€", oneWay8: "325€", return8: "650€", distance: "249 km", time: "2h 34m" },
+{ destination: "Boliqueime", oneWay4: "255€", return4: "510€", oneWay8: "275€", return8: "550€", distance: "225 km", time: "2h 19m" },
+{ destination: "Budens", oneWay4: "320€", return4: "640€", oneWay8: "360€", return8: "720€", distance: "297 km", time: "3h 00m" },
+{ destination: "Cabanas de Tavira", oneWay4: "180€", return4: "360€", oneWay8: "220€", return8: "440€", distance: "181 km", time: "1h 49m" },
+{ destination: "Cacela Velha", oneWay4: "180€", return4: "360€", oneWay8: "220€", return8: "440€", distance: "165 km", time: "1h 46m" },
+{ destination: "Carvoeiro", oneWay4: "270€", return4: "540€", oneWay8: "320€", return8: "640€", distance: "261 km", time: "2h 39m" },
+{ destination: "Castro Marim", oneWay4: "185€", return4: "370€", oneWay8: "225€", return8: "450€", distance: "156 km", time: "1h 40m" },
+{ destination: "Conceição de Tavira", oneWay4: "185€", return4: "370€", oneWay8: "225€", return8: "450€", distance: "179 km", time: "1h 46m" },
+{ destination: "Estoi", oneWay4: "225€", return4: "450€", oneWay8: "275€", return8: "550€", distance: "205 km", time: "2h 06m" },
+{ destination: "Faro (City)", oneWay4: "235€", return4: "470€", oneWay8: "275€", return8: "550€", distance: "211 km", time: "2h 14m" },
+{ destination: "Ferragudo", oneWay4: "265€", return4: "530€", oneWay8: "305€", return8: "610€", distance: "265 km", time: "2h 44m" },
+{ destination: "Fuzeta", oneWay4: "180€", return4: "360€", oneWay8: "240€", return8: "480€", distance: "199 km", time: "2h 09m" },
+{ destination: "Guia", oneWay4: "260€", return4: "520€", oneWay8: "300€", return8: "600€", distance: "241 km", time: "2h 26m" },
+{ destination: "Lagoa", oneWay4: "270€", return4: "540€", oneWay8: "330€", return8: "660€", distance: "256 km", time: "2h 34m" },
+{ destination: "Lagos", oneWay4: "300€", return4: "600€", oneWay8: "350€", return8: "700€", distance: "287 km", time: "2h 56m" },
+{ destination: "Lisboa", oneWay4: "600€", return4: "1200€", oneWay8: "750€", return8: "1500€", distance: "475 km", time: "4h 28m" },
+{ destination: "Loulé", oneWay4: "240€", return4: "480€", oneWay8: "285€", return8: "570€", distance: "217 km", time: "2h 14m" },
+{ destination: "Luz Tavira", oneWay4: "190€", return4: "380€", oneWay8: "230€", return8: "460€", distance: "191 km", time: "2h 04m" },
+{ destination: "Manta Rota", oneWay4: "185€", return4: "370€", oneWay8: "235€", return8: "470€", distance: "165 km", time: "1h 46m" },
+{ destination: "Moncarapacho", oneWay4: "190€", return4: "380€", oneWay8: "230€", return8: "460€", distance: "193 km", time: "2h 00m" },
+{ destination: "Monchique", oneWay4: "270€", return4: "540€", oneWay8: "340€", return8: "680€", distance: "282 km", time: "2h 58m" },
+{ destination: "Monte Gordo", oneWay4: "175€", return4: "350€", oneWay8: "230€", return8: "460€", distance: "162 km", time: "1h 48m" },
+{ destination: "Olhão", oneWay4: "200€", return4: "400€", oneWay8: "270€", return8: "540€", distance: "201 km", time: "2h 10m" },
+{ destination: "Porches", oneWay4: "280€", return4: "560€", oneWay8: "320€", return8: "640€", distance: "249 km", time: "2h 32m" },
+{ destination: "Portimão", oneWay4: "295€", return4: "590€", oneWay8: "335€", return8: "670€", distance: "268 km", time: "2h 46m" },
+{ destination: "Praia da Luz (Lagos)", oneWay4: "350€", return4: "700€", oneWay8: "400€", return8: "800€", distance: "292 km", time: "3h 00m" },
+{ destination: "Praia Verde", oneWay4: "185€", return4: "370€", oneWay8: "225€", return8: "450€", distance: "163 km", time: "1h 46m" },
+{ destination: "Quarteira", oneWay4: "210€", return4: "420€", oneWay8: "280€", return8: "560€", distance: "222 km", time: "2h 20m" },
+{ destination: "Quinta do Lago", oneWay4: "250€", return4: "500€", oneWay8: "290€", return8: "580€", distance: "217 km", time: "2h 19m" },
+{ destination: "Robinson Club (Quinta da Ria)", oneWay4: "185€", return4: "370€", oneWay8: "230€", return8: "460€", distance: "170 km", time: "1h 51m" },
+{ destination: "Sagres", oneWay4: "350€", return4: "700€", oneWay8: "430€", return8: "860€", distance: "312 km", time: "3h 16m" },
+{ destination: "Salema", oneWay4: "265€", return4: "530€", oneWay8: "325€", return8: "650€", distance: "300 km", time: "3h 08m" },
+{ destination: "Santa Catarina Fonte Do Bispo", oneWay4: "195€", return4: "390€", oneWay8: "245€", return8: "490€", distance: "189 km", time: "2h 01m" },
+{ destination: "Santa Luzia (Tavira)", oneWay4: "185€", return4: "370€", oneWay8: "225€", return8: "450€", distance: "187 km", time: "2h 02m" },
+{ destination: "Sao Bras de Alportel", oneWay4: "215€", return4: "430€", oneWay8: "235€", return8: "470€", distance: "199 km", time: "2h 12m" },
+{ destination: "Seville (Spain)", oneWay4: "169€", return4: "338€", oneWay8: "209€", return8: "418€", distance: "203 km", time: "2h 00m" },
+{ destination: "Silves", oneWay4: "260€", return4: "520€", oneWay8: "330€", return8: "660€", distance: "259 km", time: "2h 41m" },
+{ destination: "Tavira", oneWay4: "185€", return4: "370€", oneWay8: "220€", return8: "440€", distance: "186 km", time: "1h 57m" },
+{ destination: "Vale do Lobo", oneWay4: "250€", return4: "500€", oneWay8: "290€", return8: "580€", distance: "223 km", time: "2h 26m" },
+{ destination: "Vila do Bispo", oneWay4: "265€", return4: "530€", oneWay8: "335€", return8: "670€", distance: "305 km", time: "3h 11m" },
+{ destination: "Vila Real de Sto António", oneWay4: "175€", return4: "350€", oneWay8: "225€", return8: "450€", distance: "159 km", time: "1h 44m" },
+{ destination: "Vilamoura", oneWay4: "255€", return4: "510€", oneWay8: "295€", return8: "590€", distance: "225 km", time: "2h 24m" },
+{ destination: "Vilanova de Cacela", oneWay4: "180€", return4: "360€", oneWay8: "210€", return8: "420€", distance: "170 km", time: "1h 40m" },
+ ]
+};
+
+export function PricesTable() {
+  const [airport, setAirport] = useState<AirportKey>("faro");
 
   return (
-    <div className="min-h-screen pt-18 bg-gradient-to-br from-primary/3 via-primary/2 to-transparent">
-      {/* Hero Section */}
-      <section className="py-24 lg:py-32 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-primary/10"></div>
-        </div>
-        <div className="container mx-auto px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-16">
-            <FadeIn>
-              <div className="inline-flex items-center space-x-3 bg-primary/10 text-primary px-5 py-3 rounded-full font-medium border border-primary/20 mb-8">
-                <Sparkles className="h-5 w-5" />
-                <span>Preços transparentes, sem surpresas</span>
-              </div>
-            </FadeIn>
-            <SlideUp delay={0.2}>
-              <h1 className="text-5xl lg:text-7xl font-bold mb-8 tracking-tight">
-                <span className="bg-gradient-to-r from-primary via-primary/90 to-primary/80 bg-clip-text text-transparent">
-                  Preçário
-                </span>
-                <br />
-                <span className="text-foreground">Transparente</span>
-              </h1>
-            </SlideUp>
-            <FadeIn delay={0.4}>
-              <p className="text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed font-light">
-                Preços fixos sem surpresas. Todos os nossos transfers incluem monitorização de voos, 
-                espera gratuita e preços transparentes.
-              </p>
-            </FadeIn>
-          </div>
+    <section className="prices-table-section">
+      <h2 className="section-title">Transfer Prices</h2>
 
-          {/* Benefits Bar */}
-          <SlideUp delay={0.6}>
-            <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-6 shadow-xl border border-white/20 mb-16">
-              <StaggerContainer delay={0.8} staggerDelay={0.1} className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                {benefits.map((benefit, index) => (
-                  <div key={index} className="flex items-center space-x-3 text-center md:text-left">
-                    <div className="w-12 h-12 bg-gradient-to-br from-primary/10 to-primary/5 rounded-2xl flex items-center justify-center text-primary flex-shrink-0">
-                      {benefit.icon}
-                    </div>
-                    <span className="font-medium text-foreground">{benefit.text}</span>
-                  </div>
-                ))}
-              </StaggerContainer>
-            </div>
-          </SlideUp>
-        </div>
-      </section>
+      {/* Airport Selector */}
+      <div className="airport-tabs">
+        <button
+          className={airport === "faro" ? "active" : ""}
+          onClick={() => setAirport("faro")}
+        >
+          Faro Airport
+        </button>
+        <button
+          className={airport === "lisbon" ? "active" : ""}
+          onClick={() => setAirport("lisbon")}
+        >
+          Lisbon Airport
+        </button>
+        <button
+          className={airport === "seville" ? "active" : ""}
+          onClick={() => setAirport("seville")}
+        >
+          Seville Airport
+        </button>
+      </div>
 
-      {/* Pricing Cards */}
-      <section className="pb-24">
-        <div className="container mx-auto px-6 lg:px-8">
-          <StaggerContainer delay={0.2} staggerDelay={0.2} className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-24">
-            {pricing.map((plan, index) => (
-              <ScaleIn key={index} delay={index * 0.15}>
-                <Card className={`relative group hover:scale-105 transition-all duration-700 border-0 shadow-2xl overflow-hidden bg-white/90 backdrop-blur-sm ${plan.popular ? 'lg:scale-110 z-10' : ''}`}>
-                  {plan.popular && (
-                    <RotateIn delay={0.5}>
-                      <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-20">
-                        <Badge className="bg-gradient-to-r from-primary to-primary/90 text-white px-6 py-2 font-bold shadow-lg rounded-full">
-                          Mais Popular
-                        </Badge>
-                      </div>
-                    </RotateIn>
-                  )}
-                
-                {/* Image Header */}
-                <div className="relative h-48 overflow-hidden">
-                  <ImageWithFallback 
-                    src={plan.image}
-                    alt={plan.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
-                  />
-                  <div className={`absolute inset-0 bg-gradient-to-t ${plan.gradient} opacity-90`}></div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center text-white">
-                      <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-3xl flex items-center justify-center mx-auto mb-4">
-                        {plan.icon}
-                      </div>
-                      <h3 className="text-2xl font-bold tracking-tight">{plan.title}</h3>
-                      <p className="text-white/90 font-medium mt-1">{plan.subtitle}</p>
-                    </div>
-                  </div>
-                </div>
-
-                <CardContent className="p-8 bg-white space-y-8">
-                  <div className="text-center">
-                    <p className="text-muted-foreground font-light text-lg">{plan.description}</p>
-                  </div>
-
-                  {/* Features */}
-                  <div className="space-y-4">
-                    <h4 className="font-bold text-center text-lg tracking-tight">Incluído:</h4>
-                    <div className="space-y-3">
-                      {plan.features.map((feature, featureIndex) => (
-                        <div key={featureIndex} className="flex items-center space-x-3">
-                          <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                            <Check className="h-4 w-4 text-green-600" />
-                          </div>
-                          <span className="text-foreground font-medium">{feature}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Routes and Prices */}
-                  <div className="space-y-4">
-                    <h4 className="font-bold text-center text-lg tracking-tight">Rotas Principais:</h4>
-                    <div className="bg-muted/30 rounded-2xl p-4 space-y-3">
-                      {plan.routes.slice(0, 3).map((route, routeIndex) => (
-                        <div key={routeIndex} className="flex justify-between items-center py-2">
-                          <div>
-                            <p className="font-bold text-foreground">{route.from}</p>
-                            <p className="text-sm text-muted-foreground">para {route.to}</p>
-                          </div>
-                          <span className={`font-bold text-xl bg-gradient-to-r ${plan.gradient} bg-clip-text text-transparent`}>
-                            {route.price}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <Button 
-                    className={`w-full h-12 font-bold shadow-xl hover:shadow-2xl transition-all duration-300 rounded-xl ${
-                      plan.popular 
-                        ? 'bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary/80 text-white' 
-                        : `bg-gradient-to-r ${plan.gradient} hover:scale-105 text-white`
-                    }`}
-                  >
-                    Reservar {plan.title}
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                </CardContent>
-              </Card>
-              </ScaleIn>
+      {/* Table */}
+      <div className="table-wrapper">
+        <table className="prices-table">
+          <thead>
+            <tr>
+              <th>Destination</th>
+              <th>1–4 pax (One way)</th>
+              <th>1–4 pax (Return)</th>
+              <th>5–8 pax (One way)</th>
+              <th>5–8 pax (Return)</th>
+              <th>Distance</th>
+              <th>Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data[airport].map((row, i) => (
+              <tr key={i}>
+                <td>{row.destination}</td>
+                <td>{row.oneWay4}</td>
+                <td>{row.return4}</td>
+                <td>{row.oneWay8}</td>
+                <td>{row.return8}</td>
+                <td>{row.distance}</td>
+                <td>{row.time}</td>
+              </tr>
             ))}
-          </StaggerContainer>
-
-          {/* Additional Services */}
-          <div className="space-y-16">
-            <FadeIn>
-              <div className="text-center">
-                <h2 className="text-4xl lg:text-5xl font-bold mb-6 tracking-tight">Serviços Adicionais</h2>
-                <p className="text-xl text-muted-foreground font-light">
-                  Serviços extras para tornar a sua viagem ainda mais conveniente
-                </p>
-              </div>
-            </FadeIn>
-
-            <StaggerContainer delay={0.3} staggerDelay={0.3} className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {additionalServices.map((service, index) => (
-                <Card key={index} className="group hover:scale-105 transition-all duration-700 border-0 shadow-2xl overflow-hidden bg-white/90 backdrop-blur-sm">
-                  <CardHeader className={`bg-gradient-to-r ${service.gradient} text-white text-center py-10`}>
-                    <ScaleIn delay={0.2}>
-                      <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-3xl flex items-center justify-center mx-auto mb-4">
-                        {service.icon}
-                      </div>
-                    </ScaleIn>
-                    <CardTitle className="text-2xl font-bold tracking-tight">{service.title}</CardTitle>
-                    <p className="text-white/90 font-medium text-lg">{service.description}</p>
-                  </CardHeader>
-                  <CardContent className="p-8 bg-white">
-                    <ul className="space-y-4">
-                      {service.details.map((detail, detailIndex) => (
-                        <li key={detailIndex} className="flex items-center space-x-3">
-                          <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                            <Check className="h-4 w-4 text-green-600" />
-                          </div>
-                          <span className="text-foreground font-medium">{detail}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </CardContent>
-                </Card>
-              ))}
-            </StaggerContainer>
-          </div>
-
-          {/* Notes */}
-          <SlideUp delay={0.4} className="mt-24">
-            <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20 shadow-2xl border-0">
-              <CardContent className="p-10">
-                <FadeIn delay={0.6}>
-                  <h3 className="font-bold text-2xl mb-8 text-center tracking-tight">Notas Importantes</h3>
-                </FadeIn>
-                <StaggerContainer delay={0.8} staggerDelay={0.1} className="grid grid-cols-1 md:grid-cols-2 gap-8 text-muted-foreground">
-                  <ul className="space-y-4">
-                    <li className="flex items-start space-x-3">
-                      <Check className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
-                      <span className="font-medium">Preços válidos para áreas metropolitanas de Lisboa e Porto</span>
-                    </li>
-                    <li className="flex items-start space-x-3">
-                      <Check className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
-                      <span className="font-medium">Cotação personalizada para destinos fora destas áreas</span>
-                    </li>
-                    <li className="flex items-start space-x-3">
-                      <Check className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
-                      <span className="font-medium">Todos os preços incluem IVA, portagens e combustível</span>
-                    </li>
-                  </ul>
-                  <ul className="space-y-4">
-                    <li className="flex items-start space-x-3">
-                      <Check className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
-                      <span className="font-medium">Descontos para viagens regulares e corporativas</span>
-                    </li>
-                    <li className="flex items-start space-x-3">
-                      <Check className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
-                      <span className="font-medium">Pagamento em dinheiro, cartão ou transferência</span>
-                    </li>
-                    <li className="flex items-start space-x-3">
-                      <Check className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
-                      <span className="font-medium">Cancelamento gratuito até 24h antes</span>
-                    </li>
-                  </ul>
-                </StaggerContainer>
-              </CardContent>
-            </Card>
-          </SlideUp>
-        </div>
-      </section>
-    </div>
+          </tbody>
+        </table>
+      </div>
+    </section>
   );
 }

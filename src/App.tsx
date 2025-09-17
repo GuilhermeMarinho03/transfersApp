@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Navigation from './components/Navigation';
 import { HomeSection } from './components/sections/HomeSection';
-import { PricesSection } from './components/sections/PricesSection';
+import { PricesTable } from './components/sections/PricesSection';
 import { AboutSection  } from './components/sections/AboutSection';
 import { ContactsSection } from './components/sections/ContactSection';
 import { HelpSection } from './components/sections/HelpSection';
@@ -25,7 +25,7 @@ export default function App() {
   const renderActiveSection = () => {
     switch (activeSection) {
       case 'prices':
-        return <PricesSection />;
+        return <PricesTable />;
       case 'about':
         return <AboutSection />;
       case 'contacts':

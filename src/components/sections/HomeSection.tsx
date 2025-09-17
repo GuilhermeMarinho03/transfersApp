@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button } from '../ui/button';
-import { Star, ArrowRight } from 'lucide-react';
+import { Star, ArrowRight, MapPin } from 'lucide-react';
 import { ImageWithFallback } from '../figma/ImageWithFallback';
 import {
   FadeIn,
@@ -9,16 +9,66 @@ import {
   SlideInRight,
   StaggerContainer,
   FloatingElement,
+  ScaleIn,
 } from '../animations/ScrollAnimations';
 import './Hero.css';
 
 export function HomeSection() {
+  const [formData, setFormData] = useState({
+    pickup: '',
+    destination: '',
+    time: '',
+    passengers: '',
+    children: '',
+    vehicleType: '',
+    returnDate: '',
+    returnTime: '',
+    specialRequests: '',
+  });
+  const [date, setDate] = useState<Date | null>(null);
+
+  const handleInputChange = (field: string, value: string) => {
+    setFormData({ ...formData, [field]: value });
+  };
+
+  const handleBooking = () => {
+    console.log('Booking data:', formData, 'Date:', date);
+  };
+
+  const formatDate = (d: Date | null | undefined): string =>
+    d ? new Intl.DateTimeFormat('pt-PT').format(d) : '';
+
+  const features = [
+    {
+      icon: <Star className="w-8 h-8" />,
+      title: 'Conforto Premium',
+      description: 'Viaturas modernas e equipadas para máximo conforto.',
+    },
+    {
+      icon: <ArrowRight className="w-8 h-8" />,
+      title: 'Serviço Rápido',
+      description: 'Transferências pontuais, sem atrasos ou surpresas.',
+    },
+    {
+      icon: <Star className="w-8 h-8" />,
+      title: 'Motoristas Profissionais',
+      description: 'Condutores experientes e corteses à sua disposição.',
+    },
+    {
+      icon: <Star className="w-8 h-8" />,
+      title: 'Preço Transparente',
+      description: 'Sem custos ocultos, o valor que vê é o que paga.',
+    },
+  ];
+
   return (
     <div className="hero">
+      {/* Overlay */}
       <div className="hero-overlay">
         <div className="hero-overlay-gradient"></div>
       </div>
 
+      {/* Hero Grid */}
       <div className="hero-grid">
         {/* Left Content */}
         <SlideInLeft>
@@ -91,37 +141,185 @@ export function HomeSection() {
           </div>
         </SlideInRight>
       </div>
+
+      {/* Features Section */}
+      <section className="hero-features-section">
+        <div className="hero-features-container">
+          <FadeIn>
+            <div className="hero-features-header">
+              <h2 className="hero-features-title">
+                Porquê Escolher-nos?
+              </h2>
+              <p className="hero-features-subtitle">
+                Cada detalhe é pensado para tornar a sua viagem perfeita
+              </p>
+            </div>
+          </FadeIn>
+
+          <StaggerContainer delay={0.2} staggerDelay={0.15} className="hero-features">
+            {features.map((feature, index) => (
+              <div key={index} className="hero-feature-item">
+                <ScaleIn delay={index * 0.1}>
+                  <div className="hero-feature-icon">{feature.icon}</div>
+                </ScaleIn>
+                <h3 className="hero-feature-title">{feature.title}</h3>
+                <p className="hero-feature-description">{feature.description}</p>
+              </div>
+            ))}
+          </StaggerContainer>
+        </div>
+      </section>
+
+      {/* Booking Section */}
+      <section className="booking-section">
+        <div className="booking-container">
+          <FadeIn>
+            <div className="booking-header">
+              <h2>Reserve o seu Transfer</h2>
+              <p>Preencha os detalhes e receba uma cotação imediata</p>
+            </div>
+          </FadeIn>
+
+          <SlideUp delay={0.3}>
+            <div className="booking-card">
+              <div className="booking-card-header">
+                <h3>Formulário de Reserva</h3>
+                <p>Todos os campos são importantes para garantir o melhor serviço</p>
+              </div>
+              <div className="booking-card-content">
+               {/* Locations */}
+<div className="booking-row">
+  <div className="booking-field">
+    <label>
+      <span className="booking-icon">
+        <MapPin className="icon" />
+      </span>
+      Local de Partida
+    </label>
+    <input
+      type="text"
+      placeholder="Ex: Aeroporto de Lisboa"
+      value={formData.pickup}
+      onChange={(e) => handleInputChange('pickup', e.target.value)}
+    />
+  </div>
+
+  <div className="booking-field">
+    <label>
+      <span className="booking-icon">
+        <MapPin className="icon" />
+      </span>
+      Destino
+    </label>
+    <input
+      type="text"
+      placeholder="Ex: Hotel Tivoli Oriente"
+      value={formData.destination}
+      onChange={(e) => handleInputChange('destination', e.target.value)}
+    />
+  </div>
+</div>
+
+                {/* Date and Time */}
+                <div className="booking-row">
+                  <div className="booking-field">
+                    <label>Data da Viagem</label>
+                    <input
+                      type="date"
+                      value={date ? formatDate(date) : ''}
+                      onChange={(e) => setDate(e.target.valueAsDate)}
+                    />
+                  </div>
+                  <div className="booking-field">
+                    <label>Hora</label>
+                    <input
+                      type="time"
+                      value={formData.time}
+                      onChange={(e) => handleInputChange('time', e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                {/* Passengers */}
+                <div className="booking-row">
+                  <div className="booking-field">
+                    <label>Adultos</label>
+                    <input
+                      type="number"
+                      min={1}
+                      value={formData.passengers}
+                      onChange={(e) => handleInputChange('passengers', e.target.value)}
+                    />
+                  </div>
+                  <div className="booking-field">
+                    <label>Crianças (0-12 anos)</label>
+                    <input
+                      type="number"
+                      min={0}
+                      value={formData.children}
+                      onChange={(e) => handleInputChange('children', e.target.value)}
+                    />
+                  </div>
+                  <div className="booking-field">
+                    <label>Tipo de Veículo</label>
+                    <select
+                      value={formData.vehicleType}
+                      onChange={(e) => handleInputChange('vehicleType', e.target.value)}
+                    >
+                      <option value="">Selecionar</option>
+                      <option value="sedan">Sedan (1-3 pax)</option>
+                      <option value="executive">Executivo (1-3 pax)</option>
+                      <option value="van">Van (4-8 pax)</option>
+                      <option value="luxury">Luxo (1-3 pax)</option>
+                      <option value="minibus">Minibus (9-16 pax)</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Return Trip */}
+                <div className="booking-row">
+                  <div className="booking-field">
+                    <label>Data de Regresso</label>
+                    <input
+                      type="date"
+                      value={formData.returnDate}
+                      onChange={(e) => handleInputChange('returnDate', e.target.value)}
+                    />
+                  </div>
+                  <div className="booking-field">
+                    <label>Hora de Regresso</label>
+                    <input
+                      type="time"
+                      value={formData.returnTime}
+                      onChange={(e) => handleInputChange('returnTime', e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                {/* Special Requests */}
+                <div className="booking-row">
+                  <div className="booking-field full-width">
+                    <label>Pedidos Especiais</label>
+                    <textarea
+                      placeholder="Ex: Cadeira de bebé, assistência especial, paragem adicional..."
+                      value={formData.specialRequests}
+                      onChange={(e) => handleInputChange('specialRequests', e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <Button onClick={handleBooking}>Obter Cotação Gratuita</Button>
+              </div>
+            </div>
+          </SlideUp>
+        </div>
+      </section>
     </div>
   );
 }
 
-//       {/* Features Section */}
-//       <section className="py-24 bg-white/50">
-//         <div className="container mx-auto px-6 lg:px-8">
-//           <FadeIn>
-//             <div className="text-center mb-16">
-//               <h2 className="text-4xl lg:text-5xl font-bold mb-6 tracking-tight">Porquê Escolher-nos?</h2>
-//               <p className="text-xl text-muted-foreground font-light max-w-2xl mx-auto">
-//                 Cada detalhe é pensado para tornar a sua viagem perfeita
-//               </p>
-//             </div>
-//           </FadeIn>
+
           
-//           <StaggerContainer delay={0.2} staggerDelay={0.15} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-//             {features.map((feature, index) => (
-//               <div key={index} className="text-center group hover:scale-105 transition-all duration-500">
-//                 <ScaleIn delay={index * 0.1}>
-//                   <div className="w-20 h-20 bg-gradient-to-br from-primary/10 to-primary/5 rounded-3xl flex items-center justify-center mx-auto mb-6 text-primary group-hover:shadow-lg group-hover:shadow-primary/25 transition-all duration-300">
-//                     {feature.icon}
-//                   </div>
-//                 </ScaleIn>
-//                 <h3 className="text-xl font-bold mb-3 tracking-tight">{feature.title}</h3>
-//                 <p className="text-muted-foreground leading-relaxed font-light">{feature.description}</p>
-//               </div>
-//             ))}
-//           </StaggerContainer>
-//         </div>
-//       </section>
 
 //       {/* Booking Section */}
 //       <section className="py-24 bg-gradient-to-br from-primary/5 via-primary/3 to-transparent relative overflow-hidden">

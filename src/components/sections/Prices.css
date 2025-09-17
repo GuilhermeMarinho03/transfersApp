@@ -1,0 +1,105 @@
+/* PricesTable.css */
+.prices-table-section {
+  padding: 4rem 2rem;
+  background: #f9fafb;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* Tabs */
+.airport-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.airport-tabs button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  border: none;
+  background: #e5e7eb;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #374151;
+}
+
+.airport-tabs button.active {
+  background: linear-gradient(90deg, #d17833, #cc6600); /* Hero gradient */
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(217,119,6,0.3); /* Hero shadow */
+}
+
+.airport-tabs button:hover {
+  transform: translateY(-2px);
+}
+
+/* Table wrapper com scroll */
+.table-wrapper {
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 600px; 
+  border-radius: 1rem;
+  background: white;
+}
+
+/* Tabela */
+.prices-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+/* Cabeçalho fixo */
+.prices-table thead {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: linear-gradient(90deg, #d17833, #cc6600); /* Hero gradient */
+  color: white;
+}
+
+.prices-table th {
+  padding: 1rem;
+  text-align: center;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.prices-table td {
+  padding: 0.75rem 1rem;
+  text-align: center;
+  border-top: 1px solid #f0f0f0;
+  color: #374151;
+}
+
+.prices-table tr:nth-child(even) {
+  background: #f9fafb;
+}
+
+.prices-table tr:hover {
+  background: #fff7f0;
+  transition: background 0.3s ease;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .prices-table {
+    font-size: 0.85rem;
+  }
+  .prices-table th,
+  .prices-table td {
+    padding: 0.6rem;
+  }
+}
